@@ -11,6 +11,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #f4f4f9;
+    background-image: url('https://www.transparenttextures.com/patterns/axiom-pattern.png');
 }
 
 .container {
@@ -64,6 +65,12 @@ li {
     border-radius: 4px;
     transition: background-color 0.3s;
 }
+.link-task {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 
 .completed {
     text-decoration: line-through;
