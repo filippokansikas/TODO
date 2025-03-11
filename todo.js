@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const taskInput = document.getElementById('task-input');
     const addTaskButton = document.getElementById('add-task-btn');
     const taskList = document.getElementById('task-list');
+    const deleteAllButton = document.getElementById('delete-all-btn'); // Delete All button
 
     // Function to add a new task
     function addTask() {
@@ -18,11 +19,19 @@ document.addEventListener('DOMContentLoaded', function () {
         checkbox.type = 'checkbox';
         checkbox.classList.add('checkbox');
 
-        // Task content
+        // Task content (Text only, will get line-through when checked)
         const taskContent = document.createElement('span');
         taskContent.textContent = taskText;
+        taskContent.classList.add('task-text'); // Added a class for styling
 
-        // Delete button
+        // Timestamp
+        const timestamp = document.createElement('span');
+        const now = new Date();
+        const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        timestamp.textContent = ` (${formattedTime})`;
+        timestamp.classList.add('timestamp');
+
+        // Delete button (X)
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'X';
         deleteButton.classList.add('delete-btn');
@@ -34,20 +43,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Toggle completion and move to bottom
         checkbox.addEventListener('change', function () {
-            listItem.classList.toggle('completed');
+            taskContent.classList.toggle('completed'); // Apply line-through only to task text
             if (checkbox.checked) {
-                taskList.appendChild(listItem); // Moves completed tasks to the bottom
+                taskList.appendChild(listItem); // Move completed task to bottom
             } else {
-                taskList.insertBefore(listItem, taskList.firstChild); // Moves back to the top
+                taskList.insertBefore(listItem, taskList.firstChild); // Move back to top when unchecked
             }
         });
 
         listItem.appendChild(checkbox);
         listItem.appendChild(taskContent);
+        listItem.appendChild(timestamp); // Add timestamp
         listItem.appendChild(deleteButton);
-        taskList.appendChild(listItem);
+
+        // Insert new task at the **top** of the list
+        taskList.insertBefore(listItem, taskList.firstChild);
 
         taskInput.value = ''; // Clear input field
+    }
+
+    // Function to delete all tasks
+    function deleteAllTasks() {
+        taskList.innerHTML = ""; // Clears all tasks from the list
     }
 
     // Add task when button is clicked
@@ -59,4 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
             addTask();
         }
     });
+
+    // Delete all tasks when button is clicked
+    deleteAllButton.addEventListener('click', deleteAllTasks);
 });
