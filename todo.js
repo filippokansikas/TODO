@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Timestamp
         const timestamp = document.createElement('span');
         const now = new Date();
-        const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
         timestamp.textContent = ` (${formattedTime})`;
         timestamp.classList.add('timestamp');
 
@@ -80,3 +80,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // Delete all tasks when button is clicked
     deleteAllButton.addEventListener('click', deleteAllTasks);
 });
+const darkModeToggle = document.getElementById("dark-mode-toggle");
+
+// Check if dark mode was enabled before (saved in localStorage)
+if (localStorage.getItem("darkMode") === "enabled") {
+    document.body.classList.add("dark-mode");
+    darkModeToggle.checked = true;
+}
+
+// Event listener for the toggle switch
+darkModeToggle.addEventListener("change", function () {
+    if (this.checked) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "enabled"); // Save preference
+    } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "disabled"); // Save preference
+    }
+});
+
